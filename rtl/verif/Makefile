@@ -1,12 +1,33 @@
-VERILOG_SOURCES = $(PWD)/../src/simon32s64.sv       \
-                  $(PWD)/../src/simon_top.sv        \
-                  $(PWD)/../src/simon_subkey.sv     \
-                  $(PWD)/../src/simon_enc_subkey.sv \
-                  $(PWD)/../src/simon32s64_enc.sv
+SRC_DIR ?= $(PWD)/../src/
 
-TOPLEVEL = simon_top
+VERILOG_SOURCES = $(SRC_DIR)/axi4_lite_intf.sv \
+		  $(SRC_DIR)/simon128s128_enc.sv \
+		  $(SRC_DIR)/simon128s192_enc.sv \
+		  $(SRC_DIR)/simon128s256_enc.sv \
+		  $(SRC_DIR)/simon32s64_enc.sv \
+		  $(SRC_DIR)/simon48s72_enc.sv \
+		  $(SRC_DIR)/simon48s96_enc.sv \
+		  $(SRC_DIR)/simon64s128_enc.sv \
+		  $(SRC_DIR)/simon64s96_enc.sv \
+		  $(SRC_DIR)/simon96s144_enc.sv \
+		  $(SRC_DIR)/simon96s96_enc.sv \
+		  $(SRC_DIR)/simon_enc_subkey.sv \
+		  $(SRC_DIR)/simon_enc_top.sv \
+		  $(SRC_DIR)/simon128s128_dec.sv \
+		  $(SRC_DIR)/simon128s192_dec.sv \
+		  $(SRC_DIR)/simon128s256_dec.sv \
+		  $(SRC_DIR)/simon32s64_dec.sv \
+		  $(SRC_DIR)/simon48s72_dec.sv \
+		  $(SRC_DIR)/simon48s96_dec.sv \
+		  $(SRC_DIR)/simon64s128_dec.sv \
+		  $(SRC_DIR)/simon64s96_dec.sv \
+		  $(SRC_DIR)/simon96s144_dec.sv \
+		  $(SRC_DIR)/simon96s96_dec.sv \
+		  $(SRC_DIR)/simon_dec_subkey.sv \
+		  $(SRC_DIR)/simon_dec_top.sv
 
-MODULE = simon_test.simon_offtarget
+TOPLEVEL = simon_sim_wrapper/sim_top
 
-include $(shell cocotb-config --makefiles)/Makefile.inc
+MODULE = simon_test.sim
+
 include $(shell cocotb-config --makefiles)/Makefile.sim

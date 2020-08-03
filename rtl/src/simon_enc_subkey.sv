@@ -1,17 +1,15 @@
 module simon_enc_subkey #(
-	parameter BLK_SIZE_IND=0
+  parameter BLK_SIZE_IND=0
+)(
+  input clk,
+  input rst,
+  input [255:0] enc_key_in,
+  input         enc_key_in_vld,
+  output        enc_key_in_rdy,
 
-) (
-	input clk,
-	input rst,
-	input [255:0] enc_key_in,
-	input         enc_key_in_vld,
-	output        enc_key_in_rdy,
-
-	output [255:0] subkey_out,
-	output         subkey_out_vld,
-	input          subkey_out_rdy
-
+  output [255:0] subkey_out,
+  output         subkey_out_vld,
+  input          subkey_out_rdy
 );
 
     wire clk;

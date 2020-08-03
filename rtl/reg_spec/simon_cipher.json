@@ -1,38 +1,44 @@
 {
-    "name": "Simon Cipher Top",
+    "name": "Simon Cipher Ureg",
     "base_addr": "0x4c300000",
     "desc": "For now this only supports the largest SIMON cipher size",
     "reg": [
         {
             "name": "INP_DATA",
             "width": "32",
-            "repeat": "8",
-            "type": "full"
+            "repeat": "3",
+            "type": "full",
+	    "reg_seg":[]
         },
         {
             "name": "INP_KEY",
             "width": "32",
-            "repeat": "8",
-            "type": "full"
+            "repeat": "7",
+            "type": "full",
+	    "reg_seg":[]
         },
         {
-            "name": "CALC_VLD",
+            "name": "START",
             "width": "1",
             "repeat": "0",
-            "type": "full"
+            "type": "full",
+	    "reg_seg":[]
         },
         {
             "name": "DONE",
             "width": "1",
             "repeat": "0",
-            "type": "full"
+            "type": "full",
+	    "reg_seg":[]
         },
         {
             "name": "OUT_DATA",
             "width": "32",
-            "repeat": "8",
-            "type":"full"
+            "repeat": "3",
+            "type":"full",
+	    "reg_seg":[]
         }
-    ]
+    ],
+    "blk":[]
 }
     

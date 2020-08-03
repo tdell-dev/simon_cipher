@@ -1,6 +1,0 @@
-#!/bin/bash
-echo "Searching for src/ folder above me"
-
-echo "Looking for *_top in a src/ directory above me"
-echo "Filling out Makefile automatically"
-echo " This script working is probably a pipe dream sorry"

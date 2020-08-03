@@ -1,11 +1,11 @@
-#/bin/bash
+#!/bin/bash
 
-echo "Installing dependencies: iverilog, python-dev, gtkwave"
-sudo apt install iverilog python3-dev gtkwave
+echo "Installing dependencies: verilator, python-dev, gtkwave"
+sudo apt install verilator python3-dev gtkwave
 
 echo "Creating a python virtual environment"
 rm -rf verif_venv
-python3.8 -m venv verif_venv
+python3 -m venv verif_venv
 
 echo "Installing cocotb"
 source verif_venv/bin/activate
