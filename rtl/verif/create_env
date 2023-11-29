@@ -9,6 +9,7 @@ python3 -m venv verif_venv
 
 echo "Installing cocotb"
 source verif_venv/bin/activate
+
 pip install --upgrade pip
 pip install wheel cocotb
 pip install ./simon_test
