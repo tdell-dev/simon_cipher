@@ -132,7 +132,7 @@ localparam BRAM_WIDTH =  128/8   ;
 localparam BRAM_DEPTH = 4096/4096; // We need 4096 addresses of width 128
 
 generate
-    for ( genvar fifo_width_idx=0; fifo_width_idx < BRAM_WIDTH; fifo_width_idx += 1 ) begin : generate_fifo
+    for ( genvar fifo_width_idx=0; fifo_width_idx < BRAM_WIDTH; fifo_width_idx = fifo_width_idx+1 ) begin : generate_fifo
       fifo_wrapper i_ingress_fifo (
         .clk        ( clk                                                             ),
         .rst        ( rst                                                             ),

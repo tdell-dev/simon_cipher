@@ -19,8 +19,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module uram_wrapper #(
-) (
+module uram_wrapper (
   input  wire         clk      ,
   input  wire  [ 0:0] rst_async,
 

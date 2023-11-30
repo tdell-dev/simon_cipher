@@ -124,7 +124,9 @@ module simon_cfg #(
   end  
 
   generate
-    for( genvar key_word_idx=0; key_word_idx < KEYLEN_BYTES/4; key_word_idx += 1 ) begin : generate_init_key
+    genvar key_word_idx;
+    genvar key_bit_idx;
+    for( key_word_idx=0; key_word_idx < KEYLEN_BYTES/4; key_word_idx = key_word_idx+1 ) begin // : generate_init_key
       always_ff@(posedge clk) begin
         if ( rst ) begin
           init_key[(key_word_idx+1)*BITS_PER_REG-1 :(key_word_idx)*BITS_PER_REG] <= '0;
@@ -133,12 +135,13 @@ module simon_cfg #(
         end
       end  
       
-      for ( genvar key_bit_idx =0; key_bit_idx < BITS_PER_REG; key_bit_idx += 1 ) begin : generate_init_key_vert
+      for ( key_bit_idx =0; key_bit_idx < BITS_PER_REG; key_bit_idx = key_bit_idx+1 ) begin // : generate_init_key_vert
         assign init_key_vert[key_bit_idx][key_word_idx] = init_key[key_word_idx*BITS_PER_REG+key_bit_idx];
       end
+
     end
     
-    for ( genvar key_bit_idx =0; key_bit_idx < BITS_PER_REG; key_bit_idx += 1 ) begin : generate_simon_cfg_rdata
+    for (  key_bit_idx =0; key_bit_idx < BITS_PER_REG; key_bit_idx = key_bit_idx+1 ) begin // : generate_simon_cfg_rdata
       always_ff@(posedge clk) begin
         if ( int_rvalid ) begin
           simon_cfg_rdata[key_bit_idx] <= init_key_vert[key_bit_idx][int_raddr];
@@ -162,7 +165,7 @@ module simon_cfg #(
   
   
   generate
-    for( genvar wfill_idx=0; wfill_idx<8; wfill_idx +=1 ) begin : set_word_filled
+    for( genvar wfill_idx=0; wfill_idx<8; wfill_idx =wfill_idx+1 ) begin : set_word_filled
       always_ff@(posedge clk) begin
         if ( rst ) begin
           word_filled[wfill_idx] <= 1'b0;
