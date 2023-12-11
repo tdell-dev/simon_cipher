@@ -41,45 +41,45 @@ module simon_axi_to_fifo #(
   input wire clk,
   input wire rst,
 
-  input  wire  [DATA_ADDR_WIDTH-1  :0] simon_block_in_araddr  ,
-  input  wire  [DATA_BURST_WIDTH-1 :0] simon_block_in_arburst ,
-  input  wire  [DATA_CACHE_WIDTH-1 :0] simon_block_in_arcache ,
-  input  wire  [DATA_LEN_WIDTH-1   :0] simon_block_in_arlen   ,
-  input  wire  [DATA_LOCK_WIDTH-1  :0] simon_block_in_arlock  ,
-  input  wire  [DATA_PROT_WIDTH-1  :0] simon_block_in_arprot  ,
-  input  wire  [DATA_QOS_WIDTH-1   :0] simon_block_in_arqos   ,
-  input  wire  [DATA_REGION_WIDTH-1:0] simon_block_in_arregion,
-  input  wire  [DATA_SIZE_WIDTH-1  :0] simon_block_in_arsize  ,
-  output logic [                  0:0] simon_block_in_arready ,
-  input  wire  [                  0:0] simon_block_in_arvalid ,
+  input  wire  [DATA_ADDR_WIDTH-1  :0] simon_data_araddr  ,
+  input  wire  [DATA_BURST_WIDTH-1 :0] simon_data_arburst ,
+  input  wire  [DATA_CACHE_WIDTH-1 :0] simon_data_arcache ,
+  input  wire  [DATA_LEN_WIDTH-1   :0] simon_data_arlen   ,
+  input  wire  [DATA_LOCK_WIDTH-1  :0] simon_data_arlock  ,
+  input  wire  [DATA_PROT_WIDTH-1  :0] simon_data_arprot  ,
+  input  wire  [DATA_QOS_WIDTH-1   :0] simon_data_arqos   ,
+  input  wire  [DATA_REGION_WIDTH-1:0] simon_data_arregion,
+  input  wire  [DATA_SIZE_WIDTH-1  :0] simon_data_arsize  ,
+  output logic [                  0:0] simon_data_arready ,
+  input  wire  [                  0:0] simon_data_arvalid ,
 
-  input  wire  [DATA_ADDR_WIDTH-1  :0] simon_block_in_awaddr  ,
-  input  wire  [DATA_BURST_WIDTH-1 :0] simon_block_in_awburst ,
-  input  wire  [DATA_CACHE_WIDTH-1 :0] simon_block_in_awcache ,
-  input  wire  [DATA_LEN_WIDTH-1   :0] simon_block_in_awlen   ,
-  input  wire  [DATA_LOCK_WIDTH-1  :0] simon_block_in_awlock  ,
-  input  wire  [DATA_PROT_WIDTH-1  :0] simon_block_in_awprot  ,
-  input  wire  [DATA_QOS_WIDTH-1   :0] simon_block_in_awqos   ,
-  input  wire  [DATA_REGION_WIDTH-1:0] simon_block_in_awregion,
-  input  wire  [DATA_SIZE_WIDTH-1  :0] simon_block_in_awsize  ,
-  output logic [                  0:0] simon_block_in_awready ,
-  input  wire  [                  0:0] simon_block_in_awvalid ,
+  input  wire  [DATA_ADDR_WIDTH-1  :0] simon_data_awaddr  ,
+  input  wire  [DATA_BURST_WIDTH-1 :0] simon_data_awburst ,
+  input  wire  [DATA_CACHE_WIDTH-1 :0] simon_data_awcache ,
+  input  wire  [DATA_LEN_WIDTH-1   :0] simon_data_awlen   ,
+  input  wire  [DATA_LOCK_WIDTH-1  :0] simon_data_awlock  ,
+  input  wire  [DATA_PROT_WIDTH-1  :0] simon_data_awprot  ,
+  input  wire  [DATA_QOS_WIDTH-1   :0] simon_data_awqos   ,
+  input  wire  [DATA_REGION_WIDTH-1:0] simon_data_awregion,
+  input  wire  [DATA_SIZE_WIDTH-1  :0] simon_data_awsize  ,
+  output logic [                  0:0] simon_data_awready ,
+  input  wire  [                  0:0] simon_data_awvalid ,
 
-  input  wire  [                  0:0] simon_block_in_bready  ,
-  output logic [DATA_RESP_WIDTH-1  :0] simon_block_in_bresp   ,
-  output logic [                  0:0] simon_block_in_bvalid  ,
+  input  wire  [                  0:0] simon_data_bready  ,
+  output logic [DATA_RESP_WIDTH-1  :0] simon_data_bresp   ,
+  output logic [                  0:0] simon_data_bvalid  ,
 
-  output logic [DATA_DATA_WIDTH-1  :0] simon_block_in_rdata   ,
-  output logic [                  0:0] simon_block_in_rlast   ,
-  input  wire  [                  0:0] simon_block_in_rready  ,
-  input  wire  [DATA_RESP_WIDTH-1  :0] simon_block_in_rresp   ,
-  output logic [                  0:0] simon_block_in_rvalid  ,
+  output logic [DATA_DATA_WIDTH-1  :0] simon_data_rdata   ,
+  output logic [                  0:0] simon_data_rlast   ,
+  input  wire  [                  0:0] simon_data_rready  ,
+  input  wire  [DATA_RESP_WIDTH-1  :0] simon_data_rresp   ,
+  output logic [                  0:0] simon_data_rvalid  ,
 
-  input  wire  [DATA_DATA_WIDTH-1  :0] simon_block_in_wdata   ,
-  input  wire  [                  0:0] simon_block_in_wlast   ,
-  output logic [                  0:0] simon_block_in_wready  ,
-  input  wire  [DATA_STRB_WIDTH-1  :0] simon_block_in_wstrb   ,
-  input  wire  [                  0:0] simon_block_in_wvalid  ,
+  input  wire  [DATA_DATA_WIDTH-1  :0] simon_data_wdata   ,
+  input  wire  [                  0:0] simon_data_wlast   ,
+  output logic [                  0:0] simon_data_wready  ,
+  input  wire  [DATA_STRB_WIDTH-1  :0] simon_data_wstrb   ,
+  input  wire  [                  0:0] simon_data_wvalid  ,
 
   output logic [DATA_DATA_WIDTH-1  :0] ingress_fifo_dout      ,
   output logic [                  0:0] ingress_fifo_vld       ,
@@ -100,20 +100,20 @@ module simon_axi_to_fifo #(
 logic [15:0] ingress_fifo_full;
 logic [15:0] ingress_fifo_empty;
 logic ingress_fifo_ack;
-logic simon_block_in_wr_ack;
+logic simon_data_wr_ack;
 
 //BRAM Handling for Read Request
 logic [15:0] egress_fifo_full;
 logic [15:0] egress_fifo_empty;
 logic egress_fifo_ack;
-logic simon_block_in_rd_ack;
+logic simon_data_rd_ack;
 
 
-assign simon_block_in_wr_ack = simon_block_in_wvalid & simon_block_in_wready;
-assign simon_block_in_rd_ack = simon_block_in_rvalid & simon_block_in_rready;
+assign simon_data_wr_ack = simon_data_wvalid & simon_data_wready;
+assign simon_data_rd_ack = simon_data_rvalid & simon_data_rready;
 
-assign simon_block_in_wready  = ~|(ingress_fifo_full);
-assign simon_block_in_awready = ~|(ingress_fifo_full);
+assign simon_data_wready  = ~|(ingress_fifo_full);
+assign simon_data_awready = ~|(ingress_fifo_full);
 
 assign ingress_fifo_vld       = ~|(ingress_fifo_empty);
 assign ingress_fifo_ack       = ingress_fifo_vld & ingress_fifo_rdy;
@@ -121,9 +121,9 @@ assign ingress_fifo_ack       = ingress_fifo_vld & ingress_fifo_rdy;
 assign egress_fifo_rdy        = ~|(egress_fifo_full);
 assign egress_fifo_ack        = egress_fifo_vld & egress_fifo_rdy;
 
-assign simon_block_in_rvalid  = ~|(egress_fifo_empty);
-assign simon_block_in_arready = 1'b1;
-assign simon_block_in_bresp = '0;
+assign simon_data_rvalid  = ~|(egress_fifo_empty);
+assign simon_data_arready = 1'b1;
+assign simon_data_bresp = '0;
 
 
 
@@ -137,8 +137,8 @@ generate
         .clk        ( clk                                                             ),
         .rst        ( rst                                                             ),
                     
-        .din        ( simon_block_in_wdata[(fifo_width_idx+1)*8-1:(fifo_width_idx)*8] ), 
-        .wr_en      ( simon_block_in_wr_ack                                           ),
+        .din        ( simon_data_wdata[(fifo_width_idx+1)*8-1:(fifo_width_idx)*8] ), 
+        .wr_en      ( simon_data_wr_ack                                           ),
                     
         .dout       ( ingress_fifo_dout[(fifo_width_idx+1)*8-1:(fifo_width_idx)*8]    ),
         .rd_en      ( ingress_fifo_ack                                                ),
@@ -154,8 +154,8 @@ generate
         .din        ( egress_fifo_din[(fifo_width_idx+1)*8-1:(fifo_width_idx)*8]      ),
         .wr_en      ( egress_fifo_ack                                                 ),
                     
-        .dout       ( simon_block_in_rdata[(fifo_width_idx+1)*8-1:(fifo_width_idx)*8] ),
-        .rd_en      ( simon_block_in_rd_ack                                           ),
+        .dout       ( simon_data_rdata[(fifo_width_idx+1)*8-1:(fifo_width_idx)*8] ),
+        .rd_en      ( simon_data_rd_ack                                           ),
 
         .fifo_empty ( egress_fifo_empty[fifo_width_idx]                               ),
         .fifo_full  ( egress_fifo_full[fifo_width_idx]                                )
