@@ -9,6 +9,7 @@ py/ contains the reference implementation of the SIMON block algorithm to test a
 
 Repo tree is as follows:
 
+<pre>
 |+README.md
 |+py
 | \
@@ -60,3 +61,4 @@ Repo tree is as follows:
 |  +wrapper
 |   \
 |    +-simon128n256_wrapper.sv : 
+</pre>
