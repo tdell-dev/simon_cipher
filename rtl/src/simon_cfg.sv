@@ -74,7 +74,7 @@ module simon_cfg #(
     if ( rst ) begin
       int_waddr <= '0;
     end else if ( simon_cfg_awvalid ) begin
-      int_waddr <= simon_cfg_awaddr[3:0];
+      int_waddr <= simon_cfg_awaddr[5:2];
     end
   end
 
@@ -101,7 +101,7 @@ module simon_cfg #(
     if ( rst ) begin
       int_raddr <= '0;
     end else if ( simon_cfg_arvalid ) begin
-      int_raddr <= simon_cfg_araddr[3:0];
+      int_raddr <= simon_cfg_araddr[5:2];
     end
   end
 
@@ -156,7 +156,7 @@ module simon_cfg #(
   assign key_compute_start = &(word_filled) | key_start_compute_override;
 
   always_ff@(posedge clk) begin
-    if ( simon_cfg_awvalid && simon_cfg_awaddr[3:0] == 8 ) begin
+    if ( simon_cfg_awvalid && simon_cfg_awaddr[5:2] == 8 ) begin
       key_start_compute_override <= 1'b1;
     end else begin
       key_start_compute_override <= 1'b0;
