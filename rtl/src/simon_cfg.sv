@@ -65,8 +65,6 @@ module simon_cfg #(
   logic [ 0:0] int_wvalid;
   logic [ 0:0] int_rvalid;
 
-  logic [31:0][7:0] init_key_vert;
-
   localparam  BITS_PER_REG = 32;
   
   assign simon_cfg_awready = 1'b1;
@@ -123,32 +121,95 @@ module simon_cfg #(
     end
   end  
 
-  generate
-    genvar key_word_idx;
-    genvar key_bit_idx;
-    for( key_word_idx=0; key_word_idx < KEYLEN_BYTES/4; key_word_idx = key_word_idx+1 ) begin // : generate_init_key
-      always_ff@(posedge clk) begin
-        if ( rst ) begin
-          init_key[(key_word_idx+1)*BITS_PER_REG-1 :(key_word_idx)*BITS_PER_REG] <= '0;
-        end else if ( int_wvalid  && int_waddr == key_word_idx ) begin
-          init_key[(key_word_idx+1)*BITS_PER_REG-1 :(key_word_idx)*BITS_PER_REG] <= int_wdata;
+  always_ff@(posedge clk) begin
+    if ( rst ) begin
+      init_key <= '0;
+    end else if ( int_wvalid ) begin
+      case( int_waddr[2:0] )
+        3'h0: begin
+          init_key[31:0]    <=  int_wdata;
         end
-      end  
-      
-      for ( key_bit_idx =0; key_bit_idx < BITS_PER_REG; key_bit_idx = key_bit_idx+1 ) begin // : generate_init_key_vert
-        assign init_key_vert[key_bit_idx][key_word_idx] = init_key[key_word_idx*BITS_PER_REG+key_bit_idx];
-      end
+       
+        3'h1: begin
+          init_key[63:32]   <=  int_wdata;
+        end
+       
+        3'h2: begin
+          init_key[95:64]   <=  int_wdata;
+        end
+       
+        3'h3: begin
+          init_key[127:96]  <=  int_wdata;
+        end
+       
+        3'h4: begin
+          init_key[159:128] <=  int_wdata;
+        end
+       
+        3'h5: begin
+          init_key[191:160] <=  int_wdata;
+        end
+       
+        3'h6: begin
+          init_key[223:192] <=  int_wdata;
+        end
+       
+        3'h7: begin
+          init_key[255:224] <=  int_wdata;
+        end
+     
+        default: begin
+          init_key[31:0] <= int_wdata;
+        end
 
+      endcase 
     end
+  end
     
-    for (  key_bit_idx =0; key_bit_idx < BITS_PER_REG; key_bit_idx = key_bit_idx+1 ) begin // : generate_simon_cfg_rdata
-      always_ff@(posedge clk) begin
-        if ( int_rvalid ) begin
-          simon_cfg_rdata[key_bit_idx] <= init_key_vert[key_bit_idx][int_raddr];
+  always_ff@(posedge clk) begin
+    if ( rst ) begin
+      simon_cfg_rdata <= '0;
+    end else if ( int_rvalid ) begin
+      case( int_raddr[2:0] )
+        3'h0: begin
+          simon_cfg_rdata <= init_key[31:0]   ;
         end
-      end
+       
+        3'h1: begin
+          simon_cfg_rdata <= init_key[31:0]   ;
+        end
+       
+        3'h2: begin
+          simon_cfg_rdata <= init_key[95:64]  ;
+        end
+       
+        3'h3: begin
+          simon_cfg_rdata <= init_key[127:96] ;
+        end
+       
+        3'h4: begin
+          simon_cfg_rdata <= init_key[159:128];
+        end
+       
+        3'h5: begin
+          simon_cfg_rdata <= init_key[191:160];
+        end
+       
+        3'h6: begin
+          simon_cfg_rdata <= init_key[223:192];
+        end
+       
+        3'h7: begin
+          simon_cfg_rdata <= init_key[255:224];
+        end
+     
+        default: begin
+          simon_cfg_rdata <= init_key[31:0]   ;
+        end
+
+      endcase 
     end
-  endgenerate 
+  end
 
   logic       key_start_compute_override;
   logic [7:0] word_filled;
@@ -165,7 +226,7 @@ module simon_cfg #(
   
   
   generate
-    for( genvar wfill_idx=0; wfill_idx<8; wfill_idx =wfill_idx+1 ) begin : set_word_filled
+    for( genvar wfill_idx=0; wfill_idx<8; wfill_idx +=1 ) begin : set_word_filled
       always_ff@(posedge clk) begin
         if ( rst ) begin
           word_filled[wfill_idx] <= 1'b0;

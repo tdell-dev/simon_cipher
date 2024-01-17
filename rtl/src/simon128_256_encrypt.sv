@@ -80,7 +80,7 @@ module simon128_256_encrypt #(
 
   input  wire  [DATA_DATA_WIDTH-1  :0] simon_data_wdata   ,
   input  wire  [                  0:0] simon_data_wlast   ,
-  input  wire  [                  0:0] simon_data_wready  ,
+  output logic [                  0:0] simon_data_wready  ,
   input  wire  [DATA_STRB_WIDTH-1  :0] simon_data_wstrb   ,
   input  wire  [                  0:0] simon_data_wvalid
 );
@@ -109,67 +109,68 @@ module simon128_256_encrypt #(
   logic         round_complete;
 
   simon_axi_to_fifo #(
-    .DATA_DATA_WIDTH   ( DATA_DATA_WIDTH   ),
-    .DATA_ADDR_WIDTH   ( DATA_ADDR_WIDTH   ),
-    .DATA_BURST_WIDTH  ( DATA_BURST_WIDTH  ),
-    .DATA_CACHE_WIDTH  ( DATA_CACHE_WIDTH  ),
-    .DATA_LEN_WIDTH    ( DATA_LEN_WIDTH    ),
-    .DATA_LOCK_WIDTH   ( DATA_LOCK_WIDTH   ),
-    .DATA_PROT_WIDTH   ( DATA_PROT_WIDTH   ),
-    .DATA_QOS_WIDTH    ( DATA_QOS_WIDTH    ),
-    .DATA_REGION_WIDTH ( DATA_REGION_WIDTH ),
-    .DATA_SIZE_WIDTH   ( DATA_SIZE_WIDTH   ),
-    .DATA_RESP_WIDTH   ( DATA_RESP_WIDTH   ),
-    .DATA_STRB_WIDTH   ( DATA_STRB_WIDTH   )
+    .DATA_WIDTH   ( DATA_DATA_WIDTH   ),
+    .ADDR_WIDTH   ( DATA_ADDR_WIDTH   ),
+    .BURST_WIDTH  ( DATA_BURST_WIDTH  ),
+    .CACHE_WIDTH  ( DATA_CACHE_WIDTH  ),
+    .LEN_WIDTH    ( DATA_LEN_WIDTH    ),
+    .LOCK_WIDTH   ( DATA_LOCK_WIDTH   ),
+    .PROT_WIDTH   ( DATA_PROT_WIDTH   ),
+    .QOS_WIDTH    ( DATA_QOS_WIDTH    ),
+    .REGION_WIDTH ( DATA_REGION_WIDTH ),
+    .SIZE_WIDTH   ( DATA_SIZE_WIDTH   ),
+    .RESP_WIDTH   ( DATA_RESP_WIDTH   ),
+    .STRB_WIDTH   ( DATA_STRB_WIDTH   )
   ) i_simon_axi_to_fifo (
-    .clk                     ( clk                     ),
-    .rst                     ( rst                     ),
-    .simon_data_araddr   ( simon_data_araddr   ),
-    .simon_data_arburst  ( simon_data_arburst  ),
-    .simon_data_arcache  ( simon_data_arcache  ),
-    .simon_data_arlen    ( simon_data_arlen    ),
-    .simon_data_arlock   ( simon_data_arlock   ),
-    .simon_data_arprot   ( simon_data_arprot   ),
-    .simon_data_arqos    ( simon_data_arqos    ),
-    .simon_data_arregion ( simon_data_arregion ),   
-    .simon_data_arsize   ( simon_data_arsize   ),   
-    .simon_data_arready  ( simon_data_arready  ),   
-    .simon_data_arvalid  ( simon_data_arvalid  ),   
- 
-    .simon_data_rdata    ( simon_data_rdata    ),
-    .simon_data_rlast    ( simon_data_rlast    ),
-    .simon_data_rready   ( simon_data_rready   ),
-    .simon_data_rresp    ( simon_data_rresp    ),
-    .simon_data_rvalid   ( simon_data_rvalid   ),
- 
-    .simon_data_awaddr   ( simon_data_awaddr   ),
-    .simon_data_awburst  ( simon_data_awburst  ),
-    .simon_data_awcache  ( simon_data_awcache  ),
-    .simon_data_awlen    ( simon_data_awlen    ),
-    .simon_data_awlock   ( simon_data_awlock   ),
-    .simon_data_awprot   ( simon_data_awprot   ),
-    .simon_data_awqos    ( simon_data_awqos    ),
-    .simon_data_awregion ( simon_data_awregion ),
-    .simon_data_awsize   ( simon_data_awsize   ),
-    .simon_data_awready  ( simon_data_awready  ),
-    .simon_data_awvalid  ( simon_data_awvalid  ),
+    .clk                 ( clk                 ),
+    .rst                 ( rst                 ),
+
+    .araddr              ( simon_data_araddr   ),
+    .arburst             ( simon_data_arburst  ),
+    .arcache             ( simon_data_arcache  ),
+    .arlen               ( simon_data_arlen    ),
+    .arlock              ( simon_data_arlock   ),
+    .arprot              ( simon_data_arprot   ),
+    .arqos               ( simon_data_arqos    ),
+    .arregion            ( simon_data_arregion ),   
+    .arsize              ( simon_data_arsize   ),   
+    .arready             ( simon_data_arready  ),   
+    .arvalid             ( simon_data_arvalid  ),   
+                         
+    .rdata               ( simon_data_rdata    ),
+    .rlast               ( simon_data_rlast    ),
+    .rready              ( simon_data_rready   ),
+    .rresp               ( simon_data_rresp    ),
+    .rvalid              ( simon_data_rvalid   ),
+                         
+    .awaddr              ( simon_data_awaddr   ),
+    .awburst             ( simon_data_awburst  ),
+    .awcache             ( simon_data_awcache  ),
+    .awlen               ( simon_data_awlen    ),
+    .awlock              ( simon_data_awlock   ),
+    .awprot              ( simon_data_awprot   ),
+    .awqos               ( simon_data_awqos    ),
+    .awregion            ( simon_data_awregion ),
+    .awsize              ( simon_data_awsize   ),
+    .awready             ( simon_data_awready  ),
+    .awvalid             ( simon_data_awvalid  ),
                                    
-    .simon_data_bready   ( simon_data_bready   ),
-    .simon_data_bresp    ( simon_data_bresp    ),
-    .simon_data_bvalid   ( simon_data_bvalid   ),
-    .simon_data_wdata    ( simon_data_wdata    ),
-    .simon_data_wlast    ( simon_data_wlast    ),
-    .simon_data_wready   ( simon_data_wready   ),
-    .simon_data_wstrb    ( simon_data_wstrb    ),
-    .simon_data_wvalid   ( simon_data_wvalid   ),
+    .bready              ( simon_data_bready   ),
+    .bresp               ( simon_data_bresp    ),
+    .bvalid              ( simon_data_bvalid   ),
+    .wdata               ( simon_data_wdata    ),
+    .wlast               ( simon_data_wlast    ),
+    .wready              ( simon_data_wready   ),
+    .wstrb               ( simon_data_wstrb    ),
+    .wvalid              ( simon_data_wvalid   ),
  
-    .ingress_fifo_dout       ( ingress_fifo_dout       ),
-    .ingress_fifo_vld        ( ingress_fifo_vld        ),
-    .ingress_fifo_rdy        ( ingress_fifo_rdy        ),
+    .ingress_fifo_dout   ( ingress_fifo_dout   ),
+    .ingress_fifo_vld    ( ingress_fifo_vld    ),
+    .ingress_fifo_rdy    ( ingress_fifo_rdy    ),
     
-    .egress_fifo_din         ( egress_fifo_din         ),
-    .egress_fifo_vld         ( egress_fifo_vld         ),
-    .egress_fifo_rdy         ( egress_fifo_rdy         )
+    .egress_fifo_din     ( egress_fifo_din     ),
+    .egress_fifo_vld     ( egress_fifo_vld     ),
+    .egress_fifo_rdy     ( egress_fifo_rdy     )
   );
 
   logic ingress_fifo_ack;
@@ -233,7 +234,7 @@ module simon128_256_encrypt #(
   assign E = ls2(pt1);
   assign F = D ^ E;
 
-  assign key_addr     = round;
+  assign key_addr     = {2'b00, round};
   assign key_rd_en    = 1'b1;
 
   always_ff@(posedge clk) begin

@@ -213,10 +213,10 @@ module zub1cg_simon(
   simon i_simon (
     .clk_simon_cfg          ( simon_cfg_clk       ),
     .rst_simon_cfg          ( ~simon_cfg_rstn     ),
-                                                  
+                                
     .clk_simon_data         ( simon_data_clk      ),
     .rst_simon_data         ( ~simon_data_rstn    ),
-                                                  
+                                
     .simon_cfg_araddr       ( simon_cfg_araddr    ),
     .simon_cfg_arprot       ( simon_cfg_arprot    ), 
     .simon_cfg_arready      ( simon_cfg_arready   ),

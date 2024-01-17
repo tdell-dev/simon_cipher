@@ -1,0 +1,28 @@
+#!/bin/bash
+
+echo "The UVM parameterized classes in this testbench require building Verilator
+ from source"
+
+echo "This script will install all dependencies, clone verilator into the curren
+t directory, and build it"
+
+echo "These dependencies are for Ubuntu 22.04 that I'm working from."
+
+sudo apt install git help2man perl python3 make autoconf g++ flex bison ccache
+sudo apt install libgoogle-perftools-dev numactl perl-doc
+sudo apt install libfl2
+sudo apt install libfl-dev
+sudo apt install zlibc zlib1g zlib1g-dev
+
+git clone https://github.com/verilator/verilator
+
+unset VERILATOR_ROOT
+cd verilator
+git pull
+git checkout v5.020
+autoconf
+./configure
+make -j `nproc`
+
+echo "BUILD COMPLETE"
+echo "Run 'sudo make install' to complete verilator installation"

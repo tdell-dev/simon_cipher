@@ -52,6 +52,9 @@ module fifo_wrapper(
    //    1-4     |  "18Kb"   |    4096    |        12-bit         //
    /////////////////////////////////////////////////////////////////
 
+   logic wr_rst_busy;
+   logic rd_rst_busy;
+
    simon_fifo i_simon_fifo (
       .clk         ( clk        ),     // 1-bit input clock
       .srst        ( rst        ),     // 1-bit input reset
@@ -65,8 +68,8 @@ module fifo_wrapper(
       .empty       ( fifo_empty ),     // 1-bit output empty
       .full        ( fifo_full  ),
       
-      .wr_rst_busy ( ),
-      .rd_rst_busy ( )      // 1-bit output full
+      .wr_rst_busy ( wr_rst_busy ),
+      .rd_rst_busy ( rd_rst_busy )      // 1-bit output full
     );
 
 endmodule
