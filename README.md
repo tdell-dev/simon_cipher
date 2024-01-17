@@ -27,24 +27,11 @@ Repo tree is as follows:
 | +- simon.h            : contains hls header declarations
 | +- simon_helper.cpp   : contains helper functions for hls implementation
 |
-|+rtl
+|+sim
 | \
-| +sim
-| |\
-| | +- simon_tb.sv : This behavioral systemverilog contains the simulation for a test in Xilinx Vivado simulator
-| |
-| +src
-| |\
-| | +- fifo_wrapper.sv : wrapper for data fifo Xilinx IP
-| | +- simon128_256_encrypt.sv :  encryption logic for SIMON block
-| | +- simon_cfg.sv :  configuration block supporting AXI4-Lite
-| | +- uram_wrapper.sv : wrapper for key memory Xilinx IP
-| | +- key_schedule.sv : logic to produce key schedule from given initial key
-| | +- simon_axi_to_fifo.sv :  converts axi data transactions to data fifo signaling
-| | +- simon.sv : block-level hierarchy for simon block
-| | +- zub1cg_simon.sv : top-level hierarchy containing Zynq MPSoC IP and design
-| |
-| +verif
+|  +- simon_tb.sv : This behavioral systemverilog contains the simulation for a test in Xilinx Vivado simulator
+|
+|+verif
 |  \
 |  +- create_env: shell script which sets up cocotb sim environtment
 |  +- Makefile: Makefile required for cocotb sim
@@ -61,4 +48,18 @@ Repo tree is as follows:
 |  +wrapper
 |   \
 |    +-simon128n256_wrapper.sv : 
+|
+|+rtl
+| \
+| +src
+| |\
+| | +- fifo_wrapper.sv : wrapper for data fifo Xilinx IP
+| | +- simon128_256_encrypt.sv :  encryption logic for SIMON block
+| | +- simon_cfg.sv :  configuration block supporting AXI4-Lite
+| | +- uram_wrapper.sv : wrapper for key memory Xilinx IP
+| | +- key_schedule.sv : logic to produce key schedule from given initial key
+| | +- simon_axi_to_fifo.sv :  converts axi data transactions to data fifo signaling
+| | +- simon.sv : block-level hierarchy for simon block
+| | +- zub1cg_simon.sv : top-level hierarchy containing Zynq MPSoC IP and design
+
 </pre>
