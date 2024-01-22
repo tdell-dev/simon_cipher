@@ -22,7 +22,7 @@ class simon_environment extends uvm_env;
     super.build_phase(phase);
     simon_agnt = simon_agent::type_id::create("simon_Agent", this);
     ref_model = simon_ref_model::type_id::create("ref_model", this);
-    coverage = simon_coverag#(simon_transaction)::type_id::create("coverage", this);
+    coverage = simon_coverage#(simon_transaction)::type_id::create("coverage", this);
     sb = simon_scoreboard::type_id::create("sb", this);
   endfunction
 

@@ -1,7 +1,7 @@
 `ifndef SIMON_TRANSACTION
 `define SIMON_TRANSACTION
 
-class simon_tansaction extends uvm_sequence_item;
+class simon_transaction extends uvm_sequence_item;
 
   //Declaration of simon transaction fields
   rand bit [`ADDER_WIDTH-1:0] x,y;

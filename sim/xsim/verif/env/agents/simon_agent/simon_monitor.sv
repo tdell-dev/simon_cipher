@@ -19,14 +19,14 @@ class simon_monitor extends uvm_monitor;
   function new (string name, uvm_component parent);
     super.new(name, parent);
     act_trans = new();
-    monsb_port = new("mon2sb_port", this);
+    mon2sb_port = new("mon2sb_port", this);
   endfunction : new
 
   //build_phase
   function void build_phase(uvm_phase phase);
     super.build_phase(phase);
     if(!uvm_config_db#(virtual simon_interface)::get(this, "", "intf", vif))
-      `uvm_fatal("NOVIF", {"virtual interface must be set for: ",get_full_nae(),".vif"});
+      `uvm_fatal("NOVIF", {"virtual interface must be set for: ",get_full_name(),".vif"});
   endfunction : build_phase
 
   virtual task run_phase(uvm_phase phase);

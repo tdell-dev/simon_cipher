@@ -13,10 +13,10 @@ covergroup simon_cg;
   option.goal=100;
 
   simon_x: coverpoint cov_trans.x {
-             bins x_values[]] {[0:$]};
+             bins x_values[] = {[0:$]};
            }
   simon_y: coverpoint cov_trans.y {
-             bins y_values[]] {[0:$]};
+             bins y_values[] = {[0:$]};
            }
   simon_cin: coverpoint cov_trans.cin {
              bins cin_1 = {1};

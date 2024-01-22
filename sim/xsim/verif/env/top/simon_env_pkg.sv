@@ -10,7 +10,7 @@ package simon_env_pkg;
 
  //top env files
  `include "simon_coverage.sv"
- `include "simon_scoreborad.sv"
+ `include "simon_scoreboard.sv"
  `include "simon_env.sv"
 
 endpackage

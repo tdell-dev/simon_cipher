@@ -36,7 +36,7 @@ class simon_driver extends uvm_driver #( simon_transaction );
     req.print();
     @(vif.dr_cb);
     $cast(rsp, req.clone());
-    rsp.se_id_info(req);
+    rsp.set_id_info(req);
     drv2rm_port.write(rsp);
     seq_item_port.item_done();
     seq_item_port.put(rsp);

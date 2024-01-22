@@ -11,11 +11,11 @@ class simon_scoreboard extends uvm_scoreboard;
   uvm_analysis_export#(simon_transaction) rm2sb_export, mon2sb_export;
   uvm_tlm_analysis_fifo#(simon_transaction) rm2sb_export_fifo, mon2sb_export_fifo;
   simon_transaction exp_trans, act_trans;
-  simon_transaction exp_Trans_fifo[$], act_trans_fifo[$];
+  simon_transaction exp_trans_fifo[$], act_trans_fifo[$];
   bit error;
 
   //constructor 
-  function new (string nae, uvm_component parent);
+  function new (string name, uvm_component parent);
     super.new(name, parent);
   endfunction : new
 
@@ -30,7 +30,7 @@ class simon_scoreboard extends uvm_scoreboard;
   function void connect_phase(uvm_phase phase);
     super.connect_phase(phase);
     rm2sb_export.connect(rm2sb_export_fifo.analysis_export);
-    mon2sb_export.connect(monsb_export_fifo.analysis_export);
+    mon2sb_export.connect(mon2sb_export_fifo.analysis_export);
   endfunction: connect_phase
 
   //run phase
@@ -60,13 +60,13 @@ class simon_scoreboard extends uvm_scoreboard;
         if(exp_trans.sum == act_trans.sum) begin
           `uvm_info(get_full_name(),$sformatf("SUM MATCHES"),UVM_LOW);
         end else begin
-          `uvm_error(get_Full_name(), $sformatf("SUM MISMATCHES"));
+          `uvm_error(get_full_name(), $sformatf("SUM MISMATCHES"));
           error=1;
         end
-        if(exp_trans.cout == act_Trans.cout) begin
-          `uvm_info(get_Full_name(),$sformatf("COUT MATCHES"), UVM_LOW);
+        if(exp_trans.cout == act_trans.cout) begin
+          `uvm_info(get_full_name(),$sformatf("COUT MATCHES"), UVM_LOW);
         end else begin
-          `uvm_error(getfull_name(),$sformatf("COUT MISMATCHES"));
+          `uvm_error(get_full_name(),$sformatf("COUT MISMATCHES"));
           error=1;
         end
       end
