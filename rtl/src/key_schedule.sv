@@ -20,17 +20,18 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 module key_schedule (
+  /* verilator lint_off UNUSEDSIGNAL */
   input wire           clk               ,
   input wire           rst               ,
 
   input  wire  [255:0] init_key          ,
   input  wire          key_compute_start ,
   
-  output logic         key_mem_full      ,
   input  wire          key_rd_en         ,
   input  wire  [ 8:0]  key_addr          ,
   output logic [63:0]  key_data          ,
   output logic         key_data_vld
+  /* verilator lint_on UNUSEDSIGNAL */
 );
 
   // This key scheduler is exclusively for the 256b key
@@ -64,7 +65,7 @@ module key_schedule (
   logic [63:0] k2;
   logic [63:0] k3;
 
-  wire  [63:0] P;
+  //wire  [63:0] P;
   wire  [63:0] const_seq;
 
   logic        running;
@@ -90,13 +91,13 @@ module key_schedule (
     end
   end
 
-  always_ff@(posedge clk) begin
-    if ( rst ) begin
-      key_mem_full <= 1'b0;
-    end else begin
-      key_mem_full <= (round == 71);
-    end
-  end
+//always_ff@(posedge clk) begin
+//  if ( rst ) begin
+//    key_mem_full <= 1'b0;
+//  end else begin
+//    key_mem_full <= (round == 71);
+//  end
+//end
 
   assign const_seq    = 64'hfffffffffffffffc ^ { 63'h0000000000000000, z4[round]};
 

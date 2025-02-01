@@ -31,6 +31,7 @@ module simon_cfg #(
   input  wire                       clk               ,
   input  wire                       rst               ,
 
+  /* verilator lint_off UNUSEDSIGNAL */
   input  wire  [CFG_ADDR_WIDTH-1:0] simon_cfg_araddr  ,
   input  wire  [CFG_PROT_WIDTH-1:0] simon_cfg_arprot  , 
   output logic                      simon_cfg_arready ,
@@ -57,16 +58,15 @@ module simon_cfg #(
 
   output logic [KEYLEN_BYTES*8-1:0] init_key          ,
   output logic                      key_compute_start
+  /* verilator lint_on UNUSEDSIGNAL */
 );
 
-  logic [ 3:0] int_raddr;
+  logic [ 2:0] int_raddr;
   logic [ 3:0] int_waddr;
   logic [31:0] int_wdata;
   logic [ 0:0] int_wvalid;
   logic [ 0:0] int_rvalid;
 
-  localparam  BITS_PER_REG = 32;
-  
   assign simon_cfg_awready = 1'b1;
   always_ff@(posedge clk) begin
     if ( rst ) begin
@@ -99,7 +99,7 @@ module simon_cfg #(
     if ( rst ) begin
       int_raddr <= '0;
     end else if ( simon_cfg_arvalid ) begin
-      int_raddr <= simon_cfg_araddr[5:2];
+      int_raddr <= simon_cfg_araddr[5:3];
     end
   end
 
@@ -120,6 +120,8 @@ module simon_cfg #(
       simon_cfg_rvalid <= 1'b0;
     end
   end  
+
+  assign simon_cfg_rresp = 1'b0;
 
   always_ff@(posedge clk) begin
     if ( rst ) begin

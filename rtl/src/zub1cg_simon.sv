@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: Personal
-// Engineer: rptbt
+// Engineer: tdell-dev
 // 
 // Create Date: 10/15/2023 01:17:11 PM
 // Design Name: 
@@ -19,8 +19,9 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-
-module zub1cg_simon(
+module zub1cg_simon
+  `include "simon_macros.svh"
+(
   inout  wire        click_i2c_pl_scl_io      ,
   inout  wire        click_i2c_pl_sda_io      ,
   inout  wire        click_spi_pl_io0_io      ,
@@ -42,47 +43,29 @@ module zub1cg_simon(
   inout  wire        tempsensor_i2c_pl_sda_io
 );
 
-  localparam CFG_DATA_WIDTH    =  32;
-  localparam CFG_ADDR_WIDTH    =  32;
-  localparam CFG_PROT_WIDTH    =   1;
-  localparam CFG_RESP_WIDTH    =   2;
-  localparam CFG_STRB_WIDTH    =   4;
-  
-  localparam DATA_DATA_WIDTH   = 128;
-  localparam DATA_ADDR_WIDTH   =  32;
-  localparam DATA_BURST_WIDTH  =   2;
-  localparam DATA_CACHE_WIDTH  =   4;
-  localparam DATA_LEN_WIDTH    =   8;
-  localparam DATA_LOCK_WIDTH   =   1;
-  localparam DATA_PROT_WIDTH   =   3;
-  localparam DATA_QOS_WIDTH    =   4;
-  localparam DATA_REGION_WIDTH =   4;
-  localparam DATA_SIZE_WIDTH   =   3;
-  localparam DATA_RESP_WIDTH   =   2;
-  localparam DATA_STRB_WIDTH   =  16;
 
   logic simon_cfg_clk;
   logic simon_cfg_rstn;
   
-  logic [CFG_ADDR_WIDTH-1:0]    simon_cfg_araddr       ;
-  logic [CFG_PROT_WIDTH-1:0]    simon_cfg_arprot       ; 
-  logic [               0:0]    simon_cfg_arready      ;
-  logic [               0:0]    simon_cfg_arvalid      ;
-  logic [CFG_ADDR_WIDTH-1:0]    simon_cfg_awaddr       ;
-  logic [CFG_PROT_WIDTH-1:0]    simon_cfg_awprot       ;
-  logic [               0:0]    simon_cfg_awready      ;
-  logic [               0:0]    simon_cfg_awvalid      ;
-  logic [               0:0]    simon_cfg_bready       ;
-  logic [CFG_RESP_WIDTH-1:0]    simon_cfg_bresp        ;
-  logic [               0:0]    simon_cfg_bvalid       ;
-  logic [CFG_DATA_WIDTH-1:0]    simon_cfg_rdata        ;
-  logic [               0:0]    simon_cfg_rready       ;
-  logic [               0:0]    simon_cfg_rresp        ;
-  logic [               0:0]    simon_cfg_rvalid       ;
-  logic [CFG_DATA_WIDTH-1:0]    simon_cfg_wdata        ;
-  logic [               0:0]    simon_cfg_wready       ;
-  logic [CFG_STRB_WIDTH-1:0]    simon_cfg_wstrb        ;
-  logic [               0:0]    simon_cfg_wvalid       ;
+  logic [CFG_ADDR_WIDTH-1:0]    simon_cfg_araddr   ;
+  logic [CFG_PROT_WIDTH-1:0]    simon_cfg_arprot   ; 
+  logic [               0:0]    simon_cfg_arready  ;
+  logic [               0:0]    simon_cfg_arvalid  ;
+  logic [CFG_ADDR_WIDTH-1:0]    simon_cfg_awaddr   ;
+  logic [CFG_PROT_WIDTH-1:0]    simon_cfg_awprot   ;
+  logic [               0:0]    simon_cfg_awready  ;
+  logic [               0:0]    simon_cfg_awvalid  ;
+  logic [               0:0]    simon_cfg_bready   ;
+  logic [CFG_RESP_WIDTH-1:0]    simon_cfg_bresp    ;
+  logic [               0:0]    simon_cfg_bvalid   ;
+  logic [CFG_DATA_WIDTH-1:0]    simon_cfg_rdata    ;
+  logic [               0:0]    simon_cfg_rready   ;
+  logic [               0:0]    simon_cfg_rresp    ;
+  logic [               0:0]    simon_cfg_rvalid   ;
+  logic [CFG_DATA_WIDTH-1:0]    simon_cfg_wdata    ;
+  logic [               0:0]    simon_cfg_wready   ;
+  logic [CFG_STRB_WIDTH-1:0]    simon_cfg_wstrb    ;
+  logic [               0:0]    simon_cfg_wvalid   ;
   
   logic [DATA_ADDR_WIDTH-1  :0] simon_data_araddr  ;
   logic [DATA_BURST_WIDTH-1 :0] simon_data_arburst ;

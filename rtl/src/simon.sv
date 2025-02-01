@@ -1,24 +1,4 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: Personal
-// Engineer: rptbt
-// 
-// Create Date: 10/15/2023 01:33:37 PM
-// Design Name: 
-// Module Name: simon
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
-
 
 module simon #(
     parameter CFG_DATA_WIDTH    =  32,
@@ -40,31 +20,32 @@ module simon #(
     parameter DATA_RESP_WIDTH   =   2,
     parameter DATA_STRB_WIDTH   =  16
   ) (
-    input  wire clk_simon_cfg,
-    input  wire rst_simon_cfg,
-    
-    input  wire  [CFG_ADDR_WIDTH-1:0] simon_cfg_araddr  ,
-    input  wire  [CFG_PROT_WIDTH-1:0] simon_cfg_arprot  , 
-    output logic [               0:0] simon_cfg_arready ,
-    input  wire  [               0:0] simon_cfg_arvalid ,
-    input  wire  [CFG_ADDR_WIDTH-1:0] simon_cfg_awaddr  ,
-    input  wire  [CFG_PROT_WIDTH-1:0] simon_cfg_awprot  ,
-    output reg   [               0:0] simon_cfg_awready ,
-    input  wire  [               0:0] simon_cfg_awvalid ,
-    input  wire  [               0:0] simon_cfg_bready  ,
-    output reg   [CFG_RESP_WIDTH-1:0] simon_cfg_bresp   ,
-    output reg   [               0:0] simon_cfg_bvalid  ,
-    output reg   [CFG_DATA_WIDTH-1:0] simon_cfg_rdata   ,
-    input  wire  [               0:0] simon_cfg_rready  ,
-    output reg   [               0:0] simon_cfg_rresp   ,
-    output reg   [               0:0] simon_cfg_rvalid  ,
-    input  wire  [CFG_DATA_WIDTH-1:0] simon_cfg_wdata   ,
-    output reg   [               0:0] simon_cfg_wready  ,
-    input  wire  [CFG_STRB_WIDTH-1:0] simon_cfg_wstrb   ,
-    input  wire  [               0:0] simon_cfg_wvalid  ,
+    /* verilator lint_off UNUSEDSIGNAL */
+    input  wire                          clk_simon_cfg,
+    input  wire                          rst_simon_cfg,
+
+    input  wire  [CFG_ADDR_WIDTH-1:0]    simon_cfg_araddr  ,
+    input  wire  [CFG_PROT_WIDTH-1:0]    simon_cfg_arprot  ,
+    output logic [               0:0]    simon_cfg_arready ,
+    input  wire  [               0:0]    simon_cfg_arvalid ,
+    input  wire  [CFG_ADDR_WIDTH-1:0]    simon_cfg_awaddr  ,
+    input  wire  [CFG_PROT_WIDTH-1:0]    simon_cfg_awprot  ,
+    output reg   [               0:0]    simon_cfg_awready ,
+    input  wire  [               0:0]    simon_cfg_awvalid ,
+    input  wire  [               0:0]    simon_cfg_bready  ,
+    output reg   [CFG_RESP_WIDTH-1:0]    simon_cfg_bresp   ,
+    output reg   [               0:0]    simon_cfg_bvalid  ,
+    output reg   [CFG_DATA_WIDTH-1:0]    simon_cfg_rdata   ,
+    input  wire  [               0:0]    simon_cfg_rready  ,
+    output reg   [               0:0]    simon_cfg_rresp   ,
+    output reg   [               0:0]    simon_cfg_rvalid  ,
+    input  wire  [CFG_DATA_WIDTH-1:0]    simon_cfg_wdata   ,
+    output reg   [               0:0]    simon_cfg_wready  ,
+    input  wire  [CFG_STRB_WIDTH-1:0]    simon_cfg_wstrb   ,
+    input  wire  [               0:0]    simon_cfg_wvalid  ,
                  
-    input  wire  clk_simon_data,
-    input  wire  rst_simon_data,
+    input  wire                          clk_simon_data,
+    input  wire                          rst_simon_data,
       
     input  wire  [DATA_ADDR_WIDTH-1  :0] simon_data_araddr  ,
     input  wire  [DATA_BURST_WIDTH-1 :0] simon_data_arburst ,
@@ -105,11 +86,11 @@ module simon #(
     output logic [                  0:0] simon_data_wready  ,
     input  wire  [DATA_STRB_WIDTH-1  :0] simon_data_wstrb   ,
     input  wire  [                  0:0] simon_data_wvalid  
+    /* verilator lint_on UNUSEDSIGNAL */
   );
 
   logic [255:0] init_key;
   logic         key_compute_start;
-  logic         key_mem_full;
   logic [  8:0] key_addr;
   logic         key_data_vld;
   logic         key_rd_en;
@@ -157,7 +138,6 @@ module simon #(
     .init_key               ( init_key          ),
     .key_compute_start      ( key_compute_start ),
     
-    .key_mem_full           ( key_mem_full      ),
     .key_addr               ( key_addr          ),
     .key_rd_en              ( key_rd_en         ),
     .key_data               ( key_data          ),
@@ -168,7 +148,6 @@ module simon #(
     .clk                     ( clk_simon_cfg           ),
     .rst                     ( rst_simon_cfg           ),
     
-    .key_mem_full            ( key_mem_full            ),
     .key_addr                ( key_addr                ),
     .key_rd_en               ( key_rd_en               ),
     .key_data                ( key_data                ),

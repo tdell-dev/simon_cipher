@@ -35,6 +35,7 @@ module simon_axi_to_fifo #(
   parameter STRB_WIDTH   =  16
 
 ) (
+  /* verilator lint_off UNUSEDSIGNAL */
 
   input wire clk,
   input wire rst,
@@ -86,6 +87,7 @@ module simon_axi_to_fifo #(
   input  wire  [DATA_WIDTH-1  :0] egress_fifo_din        ,
   input  wire  [             0:0] egress_fifo_vld        ,
   output wire  [             0:0] egress_fifo_rdy
+  /* verilator lint_on UNUSEDSIGNAL */
 );
 
 //Address capture for write request
@@ -105,11 +107,6 @@ logic [15:0] egress_fifo_full;
 logic [15:0] egress_fifo_empty;
 logic egress_fifo_ack;
 logic rd_ack;
-logic [11:0] egress_fifo_wr_addr;
-logic [11:0] egress_fifo_rd_addr;
-logic [ 7:0] upr_throw_r;
-logic [ 7:0] lwr_throw_r;
-
 
 assign wr_ack = wvalid & wready;
 assign rd_ack = rvalid & rready;
@@ -125,6 +122,10 @@ assign egress_fifo_ack        = egress_fifo_vld & egress_fifo_rdy;
 assign rvalid  = ~|(egress_fifo_empty);
 assign arready = 1'b1;
 assign bresp = '0;
+
+always_ff@(posedge clk) begin
+  bvalid <= wlast & wvalid;
+end
 
 logic [7:0] simon_rdata_cnt;
 logic        ar_ack;
@@ -143,11 +144,9 @@ always_ff@(posedge clk) begin
   end
 end
 
-
-
 //Any way you slice it, it will take 16 BRAMs, reduce addressing logic by making them 16x wide rather than 8x deep 2x wide
 localparam BRAM_WIDTH =  128/8   ;
-localparam BRAM_DEPTH = 4096/4096; // We need 4096 addresses of width 128
+//localparam BRAM_DEPTH = 4096/4096; // We need 4096 addresses of width 128
 
 generate
     for ( genvar fifo_width_idx=0; fifo_width_idx < BRAM_WIDTH; fifo_width_idx += 1 ) begin : generate_fifo
@@ -162,7 +161,12 @@ generate
         .rd_en      ( ingress_fifo_ack                                            ),
 
         .fifo_empty ( ingress_fifo_empty[fifo_width_idx]                          ),
-        .fifo_full  ( ingress_fifo_full[fifo_width_idx]                           )
+        .fifo_full  ( ingress_fifo_full[fifo_width_idx]                           ),
+
+        /* verilator lint_off PINCONNECTEMPTY */
+        .rd_rst_busy ( ),
+        .wr_rst_busy ( )
+        /* verilator lint_on PINCONNECTEMPTY */
       );
      
       fifo_wrapper i_egress_fifo (
@@ -176,7 +180,12 @@ generate
         .rd_en      ( rd_ack                                           ),
 
         .fifo_empty ( egress_fifo_empty[fifo_width_idx]                               ),
-        .fifo_full  ( egress_fifo_full[fifo_width_idx]                                )
+        .fifo_full  ( egress_fifo_full[fifo_width_idx]                                ),
+        
+        /* verilator lint_off PINCONNECTEMPTY */
+        .rd_rst_busy ( ),
+        .wr_rst_busy ( )
+        /* verilator lint_on PINCONNECTEMPTY */
       );
 
     end

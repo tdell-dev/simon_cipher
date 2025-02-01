@@ -1,28 +1,12 @@
 #!/bin/bash
 
-echo "The UVM parameterized classes in this testbench require building Verilator
- from source"
+#I have discovered a much easier way to install Verilator on linux_x64 systems since initially attempting this project.
+#Verilator is packaged with oss-cad-suite which makes it as simple as downloading the release from github and updating PATH
+#Instructions here: https://github.com/YosysHQ/oss-cad-suite-build?tab=readme-ov-file
+#Credit: youtube video by XXXXX will update when off the plane
 
-echo "This script will install all dependencies, clone verilator into the curren
-t directory, and build it"
-
-echo "These dependencies are for Ubuntu 22.04 that I'm working from."
-
-sudo apt install git help2man perl python3 make autoconf g++ flex bison ccache
-sudo apt install libgoogle-perftools-dev numactl perl-doc
-sudo apt install libfl2
-sudo apt install libfl-dev
-sudo apt install zlibc zlib1g zlib1g-dev
-
-git clone https://github.com/verilator/verilator
-
-unset VERILATOR_ROOT
-cd verilator
-git pull
-git checkout v5.020
-autoconf
-./configure
-make -j `nproc`
-
-echo "BUILD COMPLETE"
-echo "Run 'sudo make install' to complete verilator installation"
+wget https://github.com/YosysHQ/oss-cad-suite-build/releases/download/2024-12-17/oss-cad-suite-linux-x64-20241217.tgz
+mkdir ~/tools
+tar -xvf oss-cad-suite-linux-x64-20241217.tgz
+mv oss-cad-suite ~/tools/
+source ~/tools/oss-cad-suite/environment

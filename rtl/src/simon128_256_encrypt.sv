@@ -32,13 +32,12 @@ module simon128_256_encrypt #(
   parameter DATA_REGION_WIDTH =   4,
   parameter DATA_SIZE_WIDTH   =   3,
   parameter DATA_RESP_WIDTH   =   2,
-  parameter DATA_STRB_WIDTH   =  16,
-  parameter KEY_WIDTH         =  64
+  parameter DATA_STRB_WIDTH   =  16
+//parameter KEY_WIDTH         =  64
 ) (
   input  wire                          clk                    ,
   input  wire                          rst                    , 
   
-  input  wire                          key_mem_full           ,
   output logic                         key_rd_en              ,
   input  wire                          key_data_vld           ,
   output logic [8:0]                   key_addr               ,
@@ -238,7 +237,9 @@ module simon128_256_encrypt #(
   assign key_rd_en    = 1'b1;
 
   always_ff@(posedge clk) begin
-    key_data_sel <= key_data;
+    if ( key_data_vld ) begin
+      key_data_sel <= key_data;
+    end
   end
 
   always_ff@(posedge clk) begin

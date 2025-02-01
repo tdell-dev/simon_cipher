@@ -31,7 +31,10 @@ module fifo_wrapper(
   input  wire         rd_en     ,
 
   output logic        fifo_full ,
-  output logic        fifo_empty
+  output logic        fifo_empty,
+
+  output logic        rd_rst_busy,
+  output logic        wr_rst_busy
 );
  
    // FIFO_SYNC_MACRO: Synchronous First-In, First-Out (FIFO) RAM Buffer
@@ -51,9 +54,6 @@ module fifo_wrapper(
    //    1-4     |  "36Kb"   |    8192    |        13-bit         //
    //    1-4     |  "18Kb"   |    4096    |        12-bit         //
    /////////////////////////////////////////////////////////////////
-
-   logic wr_rst_busy;
-   logic rd_rst_busy;
 
    simon_fifo i_simon_fifo (
       .clk         ( clk        ),     // 1-bit input clock

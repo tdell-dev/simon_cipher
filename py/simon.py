@@ -55,10 +55,12 @@ def simon128_256( plaintext, key ):
 if __name__ == '__main__':
     f = open('test.json')
     data_dict = json.load(f)
-    cipher = simon128_256(data_dict['tests'][0]['plaintext'], data_dict['tests'][0]['key'])
-    if cipher != data_dict['tests'][0]['cipher'].upper():
-        print("FAIL: MISMATCH!!!\nGolden: {}\n  Test: {}".format(data_dict['tests'][0]['cipher'].upper(), cipher))
-    else:
-        print("PASS!!!\nGolden: {}\n  Test: {}".format(data_dict['tests'][0]['cipher'].upper(), cipher))
+    for test_def in data_dict['tests']:
+        cipher = simon128_256(test_def['plaintext'], test_def['key'])
 
+        print("Executing test named: {}".format(test_def['name']))
 
+        if cipher != test_def['cipher'].upper():
+            print("FAIL: MISMATCH!!!\nGolden: {}\n  Test: {}".format(test_def['cipher'].upper(), cipher))
+        else:
+            print("PASS!!!\nGolden: {}\n  Test: {}".format(test_def['cipher'].upper(), cipher))
