@@ -1,10 +1,16 @@
-all: link verilate build_exec execute view
+all: env link verilate build_exec execute view
+
+env:
+	@echo "************************";
+	@echo "* Installing  Verilator*";
+	@echo "************************";
+	./build_verilator
 
 verilate:
 	@echo "**************";
 	@echo "* Verilating *";
 	@echo "**************";
-	verilator -Wall --trace --x-assign unique --x-initial unique --cc ./rtl/src/simon.sv -Irtl/src/ -Irtl/sim_src/ -Isrc/ -exe src/tb_simon.cpp
+	verilator -Wall --trace --x-assign unique --x-initial unique --cc ./rtl/src/core/simon.sv -Irtl/src/top/ -Irtl/src/core/ -Irtl/src/ip/generic_models -Isrc/ -exe src/tb_simon.cpp
 
 build_exec:
 	@echo "************";
@@ -32,7 +38,7 @@ link:
 	fi
 
 lint:
-	verilator --lint-only ./rtl/src/simon.sv -Irtl/src/ -Irtl/sim_src/
+	verilator --lint-only ./rtl/src/simon.sv -Irtl/src/ -Irtl/generic_models/
 
 clean:
 	rm -rf ./obj_dir

@@ -3,7 +3,7 @@
 echo "Installing dependencies: make, python3, python3-pip, python3-venv"
 sudo apt install make python3 python3-pip python3-venv
 
-cd ..
+../
 
 echo "Creating a python virtual environment"
 rm -rf verif_venv
@@ -14,4 +14,4 @@ source verif_venv/bin/activate
 
 pip install --upgrade pip
 pip install wheel cocotb
-pip install ./simon_test
+pip install ./verif/simon_test
