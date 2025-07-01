@@ -11,5 +11,8 @@ Intended to be used in conjunction with the SystemVerilog contained in rtl/src/
 along with Vivado simulator to provide verification and coverage for the simon
 project.  For project details and video walkthru see tdell.xyz
 
+The questa/ directory contains the UVM test files required for
+validation in lattice questasim.
+
 Contains a driver, monitor, and environment adhering as much as possible to
 best practices.

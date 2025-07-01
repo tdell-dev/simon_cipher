@@ -1,0 +1,1 @@
+class simon_tester;
