@@ -1,1 +1,0 @@
-/home/t/Desktop/xsim_verif_example/Adder_4_bit/src/design/full_adder.sv

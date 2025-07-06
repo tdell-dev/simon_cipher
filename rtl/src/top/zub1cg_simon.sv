@@ -1,27 +1,23 @@
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: Personal
-// Engineer: tdell-dev
-// 
-// Create Date: 10/15/2023 01:17:11 PM
-// Design Name: 
-// Module Name: zub1cg_simon
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
+module zub1cg_simon #(
+  parameter CFG_DATA_WIDTH    =  32,
+  parameter CFG_ADDR_WIDTH    =  32,
+  parameter CFG_PROT_WIDTH    =   1,
+  parameter CFG_RESP_WIDTH    =   2,
+  parameter CFG_STRB_WIDTH    =   4,
 
-module zub1cg_simon
-  `include "simon_macros.svh"
-(
+  parameter DATA_DATA_WIDTH   = 128,
+  parameter DATA_ADDR_WIDTH   =  32,
+  parameter DATA_BURST_WIDTH  =   2,
+  parameter DATA_CACHE_WIDTH  =   4,
+  parameter DATA_LEN_WIDTH    =   8,
+  parameter DATA_LOCK_WIDTH   =   1,
+  parameter DATA_PROT_WIDTH   =   3,
+  parameter DATA_QOS_WIDTH    =   4,
+  parameter DATA_REGION_WIDTH =   4,
+  parameter DATA_SIZE_WIDTH   =   3,
+  parameter DATA_RESP_WIDTH   =   2,
+  parameter DATA_STRB_WIDTH   =  16
+)(
   inout  wire        click_i2c_pl_scl_io      ,
   inout  wire        click_i2c_pl_sda_io      ,
   inout  wire        click_spi_pl_io0_io      ,
@@ -107,30 +103,11 @@ module zub1cg_simon
   logic [DATA_STRB_WIDTH-1  :0] simon_data_wstrb   ;
   logic [                  0:0] simon_data_wvalid  ;
 
-  zub1cg_sbc_base_wrapper i_zub1cg_sbc_base_wrapper (
-    .click_i2c_pl_scl_io        ( click_i2c_pl_scl_io      ),
-    .click_i2c_pl_sda_io        ( click_i2c_pl_sda_io      ),
-                                                           
-    .click_spi_pl_io0_io        ( click_spi_pl_io0_io      ),
-    .click_spi_pl_io1_io        ( click_spi_pl_io1_io      ),
-    .click_spi_pl_sck_io        ( click_spi_pl_sck_io      ),
-    .click_spi_pl_ss_io         ( click_spi_pl_ss_io       ),
-                                                           
-    .click_uart_pl_rxd          ( click_uart_pl_rxd        ),
-    .click_uart_pl_txd          ( click_uart_pl_txd        ),
-                                                               
-    .hsio_dna_i2c_pl_scl_io     ( hsio_dna_i2c_pl_scl_io   ),
-    .hsio_dna_i2c_pl_sda_io     ( hsio_dna_i2c_pl_sda_io   ),
-                                                               
-    .pl_pb_tri_i                ( pl_pb_tri_i              ),
-                                                           
-    .rgb_led_0_tri_o            ( rgb_led_0_tri_o          ),
-    .rgb_led_1_tri_o            ( rgb_led_1_tri_o          ),
-                                                           
-    .simon_cfg_clk              ( simon_cfg_clk            ),
+  zub1cg_sbc_base i_zub1cg_sbc_base (
+    .simon_cfg_clk              ( clk_simon                ),
     .simon_cfg_rstn             ( simon_cfg_rstn           ),
                                                                
-    .simon_data_clk             ( simon_data_clk           ),
+    .simon_data_clk             ( clk_simon                ),
     .simon_data_rstn            ( simon_data_rstn          ),
                                                                
     .simon_cfg_araddr           ( simon_cfg_araddr         ),
@@ -187,10 +164,7 @@ module zub1cg_simon
     .simon_data_wlast           ( simon_data_wlast         ),
     .simon_data_wready          ( simon_data_wready        ),
     .simon_data_wstrb           ( simon_data_wstrb         ),
-    .simon_data_wvalid          ( simon_data_wvalid        ),
-    
-    .tempsensor_i2c_pl_scl_io   ( tempsensor_i2c_pl_scl_io ),
-    .tempsensor_i2c_pl_sda_io   ( tempsensor_i2c_pl_sda_io )
+    .simon_data_wvalid          ( simon_data_wvalid        )
   );
   
   simon i_simon (

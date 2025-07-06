@@ -11,15 +11,15 @@
 -i ../verif/tests/src
 -i ../verif/tb/src
 
-../src/fifo_wrapper.sv
-../src/simon128_256_encrypt.sv
-../src/simon_cfg.sv
-../src/zub1cg_simon.sv
-../src/key_schedule.sv
-../src/simon_axi_to_fifo.sv
-../src/simon.sv
-../verif/tb/src/simon_key_bram.sv
-../verif/tb/src/simon_fifo.sv
+../rtl/src/core/fifo_wrapper.sv
+../rtl/src/core/simon128_256_encrypt.sv
+../rtl/src/core/simon_cfg.sv
+../rtl/src/top/zub1cg_simon.sv
+../rtl/src/core/key_schedule.sv
+../rtl/src/core/simon_axi_to_fifo.sv
+../rtl/src/core/simon.sv
+../rtl/src/ip/generic_models/simon_key_bram.sv
+../rtl/src/ip/generic_models/simon_fifo.sv
 
 ../verif/env/agents/adder_4_bit_agent/adder_4_bit_agent_pkg.sv
 ../verif/env/ref_model/adder_4_bit_ref_model_pkg.sv

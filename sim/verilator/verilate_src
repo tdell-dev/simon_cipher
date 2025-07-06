@@ -1,0 +1,2 @@
+#!/bin/bash
+verilator -Wall --trace --x-assign unique --x-initial unique --cc ../rtl/src/core/simon.sv -I../rtl/src/top/ -I../rtl/src/core/ -I../rtl/src/ip/generic_models -I../rtl/src/ -exe src/tb_simon.cpp
